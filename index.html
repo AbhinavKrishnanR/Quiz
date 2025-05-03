@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+    button {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    #clue {
+      margin-top: 1rem;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="startPage">
+    <h1>Welcome to the Quiz Game</h1>
+    <button onclick="startGame()">Start</button>
+  </div>
+
+  <div class="container" id="questionPage" style="display: none;">
+    <h2 id="questionText">All managers have __________ skills.</h2>
+    <div>
+      <button onclick="showClue()">Clue</button>
+      <button onclick="nextQuestion()">Next</button>
+    </div>
+    <p id="clue"></p>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "All managers have __________ skills.",
+        clue: "ATCGNI"
+      },
+      {
+        text: "Leaders must possess __________ thinking abilities.",
+        clue: "VITISNAO"
+      },
+      {
+        text: "Effective communication is __________ in management.",
+        clue: "ETIANKSR"
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function startGame() {
+      document.getElementById("startPage").style.display = "none";
+      document.getElementById("questionPage").style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("questionText").innerText = q.text;
+      document.getElementById("clue").innerText = "";
+    }
+
+    function showClue() {
+      const q = questions[currentQuestion];
+      document.getElementById("clue").innerText = q.clue;
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("questionPage").innerHTML = "<h2>Thank you for playing!</h2>";
+      }
+    }
+  </script>
+</body>
+</html>
