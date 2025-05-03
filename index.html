@@ -5,42 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Game</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #f0f0f0;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      overflow: hidden;
     }
+
     .container {
       background: white;
       padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       text-align: center;
       max-width: 500px;
       width: 100%;
+      animation: fadeIn 1s ease;
     }
+
+    h1, h2 {
+      color: #333;
+    }
+
     button {
       margin: 1rem;
-      padding: 0.5rem 1rem;
+      padding: 0.7rem 1.5rem;
       font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ff6f61;
+      color: white;
+      transition: background 0.3s ease, transform 0.2s;
     }
+
+    button:hover {
+      background: #ff3e2d;
+      transform: scale(1.05);
+    }
+
     #clue {
       margin-top: 1rem;
       color: #007bff;
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
   <div class="container" id="startPage">
-    <h1>Welcome to the Quiz Game</h1>
+    <h1>🎉 Welcome to the Quiz Game 🎉</h1>
     <button onclick="startGame()">Start</button>
   </div>
 
-  <div class="container" id="questionPage" style="display: none;">
+  <div class="container hidden" id="questionPage">
     <h2 id="questionText">All managers have __________ skills.</h2>
     <div>
       <button onclick="showClue()">Clue</button>
@@ -68,8 +106,7 @@
     let currentQuestion = 0;
 
     function startGame() {
-      document.getElementById("startPage").style.display = "none";
-      document.getElementById("questionPage").style.display = "block";
+      transitionPages("startPage", "questionPage");
       loadQuestion();
     }
 
@@ -87,10 +124,26 @@
     function nextQuestion() {
       currentQuestion++;
       if (currentQuestion < questions.length) {
+        animateQuestionChange();
         loadQuestion();
       } else {
-        document.getElementById("questionPage").innerHTML = "<h2>Thank you for playing!</h2>";
+        document.getElementById("questionPage").innerHTML = "<h2>🎊 Thank you for playing! 🎊</h2>";
       }
+    }
+
+    function transitionPages(hideId, showId) {
+      const hideEl = document.getElementById(hideId);
+      const showEl = document.getElementById(showId);
+      hideEl.classList.add("hidden");
+      showEl.classList.remove("hidden");
+      showEl.classList.add("fadeIn");
+    }
+
+    function animateQuestionChange() {
+      const container = document.getElementById("questionPage");
+      container.style.animation = "none";
+      container.offsetHeight; // trigger reflow
+      container.style.animation = null;
     }
   </script>
 </body>
